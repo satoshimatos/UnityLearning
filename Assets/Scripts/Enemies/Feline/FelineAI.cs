@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class FelineAI : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
+    [SerializeField] private Transform wallCheck;
     [SerializeField] private LayerMask groundLayer;
     
     private float speed = 5f;
@@ -43,6 +44,12 @@ public class Movement : MonoBehaviour
     }
 
     private bool isGrounded() {
+        Debug.Log("Floor");
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    }
+
+    private bool hitWall() {
+        Debug.Log("Wall");
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
