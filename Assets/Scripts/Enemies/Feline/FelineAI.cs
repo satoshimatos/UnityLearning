@@ -15,8 +15,6 @@ public class FelineAI : MonoBehaviour
     private bool isFacingRight = true;
     
     private void Update() {
-        ManageInputs();
-        Jump();
         Flip();
     }
 
@@ -24,23 +22,8 @@ public class FelineAI : MonoBehaviour
         Move();
     }
 
-    private void Jump() {
-        if (Input.GetButtonDown("Jump") && isGrounded()) {
-            Debug.Log("Jumping");
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-        }
-
-        if (Input.GetButtonUp("Jump") && rb.velocity.y > 0) {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.3f);
-        }
-    }
-
     private void Move() {
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
-    }
-
-    private void ManageInputs() {
-        horizontal = Input.GetAxisRaw("Horizontal");
     }
 
     private bool isGrounded() {
