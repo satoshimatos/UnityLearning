@@ -7,13 +7,20 @@ public class Movement : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Animator anim;
     
     private float speed = 5f;
     private float horizontal;
     private float jumpingPower = 15f;
     private bool isFacingRight = true;
-    
+    private bool takingDamage;
+
+    private void Awake() {
+        takingDamage = false;
+    }
+
     private void Update() {
+        Animate();
         ManageInputs();
         Jump();
         Flip();
@@ -23,9 +30,16 @@ public class Movement : MonoBehaviour
         Move();
     }
 
+    private void Animate() {
+        anim.SetBool("TakingDamage", takingDamage);
+        anim.SetBool("GroundCheck", isGrounded());
+        anim.SetFloat("HorizontalSpeed", Mathf.Abs(horizontal));
+        anim.SetFloat("VerticalSpeed", rb.velocity.y);
+    }
+
     private void Jump() {
         if (Input.GetButtonDown("Jump") && isGrounded()) {
-            Debug.Log("Jumping");
+            anim.SetTrigger("Jump");
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
         }
 
