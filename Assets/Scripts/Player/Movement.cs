@@ -20,6 +20,7 @@ public class Movement : MonoBehaviour
     }
 
     private void Update() {
+        Debug.Log(Mathf.Abs(rb.velocity.y));
         Animate();
         ManageInputs();
         Jump();
@@ -39,21 +40,25 @@ public class Movement : MonoBehaviour
 
     private void Jump() {
         if (Input.GetButtonDown("Jump") && isGrounded()) {
-            anim.SetTrigger("Jump");
+            anim.SetBool("IsJumping", true);
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0) {
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.3f);
         }
-    }
+
+        if (rb.velocity.y == 0) {
+            anim.SetBool("IsJumping", false);
+        }
+    }  
 
     private void Move() {
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
 
     private void ManageInputs() {
-        horizontal = Input.GetAxisRaw("Horizontal");
+        horizontal = Input.GetAxis("Horizontal");
     }
 
     private bool isGrounded() {
