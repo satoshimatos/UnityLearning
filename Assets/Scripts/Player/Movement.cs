@@ -20,7 +20,6 @@ public class Movement : MonoBehaviour
     }
 
     private void Update() {
-        Debug.Log(Mathf.Abs(rb.velocity.y));
         Animate();
         ManageInputs();
         Jump();
