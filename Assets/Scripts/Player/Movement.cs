@@ -12,6 +12,7 @@ public class Movement : MonoBehaviour
     private float speed = 5f;
     private float horizontal;
     private float jumpingPower = 15f;
+    private float gravityScale = 5f;
     private bool isFacingRight = true;
     private bool takingDamage;
 
@@ -44,6 +45,7 @@ public class Movement : MonoBehaviour
         }
 
         if (Input.GetButtonUp("Jump") && rb.velocity.y > 0) {
+            anim.SetBool("IsJumping", false);
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.3f);
         }
 
