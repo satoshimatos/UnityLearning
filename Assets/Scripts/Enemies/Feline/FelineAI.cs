@@ -16,7 +16,6 @@ public class FelineAI : MonoBehaviour
 
     private float movementSpeed;
     private float horizontalDirection;
-    private float newDirection;
     private bool isFacingRight;
     private bool isWaiting;
     private bool isRunning;

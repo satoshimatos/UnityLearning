@@ -3529,10 +3529,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Feline
       objectReference: {fileID: 0}
-    - target: {fileID: 7466414235004295694, guid: d119a9b8af614a04d84774e72092184e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7466414235004295695, guid: d119a9b8af614a04d84774e72092184e, type: 3}
       propertyPath: m_RootOrder
       value: 0
