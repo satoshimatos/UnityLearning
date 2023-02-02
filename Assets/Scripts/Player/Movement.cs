@@ -11,8 +11,7 @@ public class Movement : MonoBehaviour
     
     private float speed = 5f;
     private float horizontal;
-    private float jumpingPower = 15f;
-    private float gravityScale = 5f;
+    private float jumpingPower = 16f;
     private bool isFacingRight = true;
     private bool takingDamage;
 
