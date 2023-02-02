@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FelineAI : MonoBehaviour
 {
-    private const float topSpeed = 6;
+    private const float topSpeed = 7;
     private const float acceleration = 0.3f;
 
     private Rigidbody2D rb;
@@ -28,6 +28,7 @@ public class FelineAI : MonoBehaviour
         isWaiting = false;
         movementSpeed = 0f;
         isFacingRight = true;
+        horizontalDirection = 1;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.Find("Player");
@@ -51,31 +52,22 @@ public class FelineAI : MonoBehaviour
 
     private void Move()
     {
-        if (!isWaiting) {
-            ChangeDirection();
-        }
-        if (Mathf.Abs(movementSpeed) < topSpeed) {
-            movementSpeed = rb.velocity.x + acceleration * horizontalDirection;
+        ChangeDirection();
+
+        if (movementSpeed >= topSpeed) {
+            movementSpeed = topSpeed - acceleration;
+        } else if (movementSpeed <= -topSpeed) {
+            movementSpeed = -topSpeed + acceleration;
         } else {
-            movementSpeed = (topSpeed - 1) * horizontalDirection;
+            movementSpeed = movementSpeed + acceleration * horizontalDirection;
         }
+
         rb.velocity = new Vector2(movementSpeed, rb.velocity.y);
     }
 
     private void ChangeDirection()
     {
-        horizontalDirection = player.transform.position.x > this.transform.position.x ? 1 : -1;
-        if (newDirection != horizontalDirection) {
-            newDirection = horizontalDirection;
-            StartCoroutine(Wait(0.5f));
-        }
-    }
-
-    private IEnumerator Wait(float time)
-    {
-        isWaiting = true;
-        yield return new WaitForSeconds(0.5f);
-        isWaiting = false;
+        horizontalDirection = player.transform.position.x > transform.position.x ? 1 : -1;
     }
 
     private bool IsGrounded()
@@ -90,7 +82,7 @@ public class FelineAI : MonoBehaviour
 
     private void Flip()
     {
-        if (isFacingRight && horizontalDirection < 0 || !isFacingRight && horizontalDirection > 0f) {
+        if (isFacingRight && horizontalDirection < 0 || !isFacingRight && horizontalDirection > 0) {
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
             localScale.x *= -1;
