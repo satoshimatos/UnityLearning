@@ -15,7 +15,7 @@ public class SlugAI : Enemy
                 direction = -1;
             }
         }
-        MoveSideways(direction, speed);
-        Flip();
+        ConstantMoveSideways(direction, speed);
+        Flip(direction);
     }
 }
