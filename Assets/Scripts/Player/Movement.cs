@@ -49,7 +49,7 @@ public class Movement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.3f);
         }
 
-        if (rb.velocity.y == 0) {
+        if (rb.velocity.y <= 0) {
             anim.SetBool("IsJumping", false);
         }
     }  

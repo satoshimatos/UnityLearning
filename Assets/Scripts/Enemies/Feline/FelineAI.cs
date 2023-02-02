@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FelineAI : MonoBehaviour
 {
+    private const float topSpeed = 7;
+    private const float acceleration = 0.3f;
+
     private Rigidbody2D rb;
     private LayerMask groundLayer;
     private Transform groundCheck;
@@ -11,70 +14,60 @@ public class FelineAI : MonoBehaviour
     private GameObject player;
     private Animator anim;
 
-    private float speed = 5f;
-    private float horizontal;
-    private float jumpingPower = 15f;
-    private float playerXPosition;
-    private bool isFacingRight = true;
+    private float movementSpeed;
+    private float horizontalDirection;
+    private float newDirection;
+    private bool isFacingRight;
     private bool isWaiting;
-    private bool isRunning = true;
-
-    private void Awake()
+    private bool isRunning;
+    private bool movingRight;
+    
+    private void Start()
     {
-        anim = GetComponent<Animator>();
-        
+        isRunning = true;
         isWaiting = false;
-        player = GameObject.Find("Player");
+        movementSpeed = 0f;
+        isFacingRight = true;
+        horizontalDirection = 1;
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.Find("Player");
+        wallCheck = transform.Find("WallCheck");
         groundLayer = LayerMask.GetMask("Ground");
         groundCheck = transform.Find("GroundCheck");
-        wallCheck = transform.Find("WallCheck");
     }
 
     private void Update()
     {
-        anim.SetFloat("HorizontalSpeed", Mathf.Abs(horizontal));
+        anim.SetFloat("HorizontalSpeed", Mathf.Abs(movementSpeed));
         anim.SetBool("GroundCheck", IsGrounded());
         anim.SetBool("Running", isRunning);
+        Flip();
     }
 
     private void FixedUpdate()
     {
-        Flip();
         Move();
     }
 
     private void Move()
     {
-        if (!isWaiting) {
-            StartCoroutine(FinishAnimation(1));
+        ChangeDirection();
+
+        if (movementSpeed >= topSpeed) {
+            movementSpeed = topSpeed - acceleration;
+        } else if (movementSpeed <= -topSpeed) {
+            movementSpeed = -topSpeed + acceleration;
+        } else {
+            movementSpeed = movementSpeed + acceleration * horizontalDirection;
         }
+
+        rb.velocity = new Vector2(movementSpeed, rb.velocity.y);
     }
 
-    private IEnumerator FinishAnimation(int time)
+    private void ChangeDirection()
     {
-        isWaiting = true;
-        yield return new WaitForSeconds(time);
-        isWaiting = false;
-        rb.velocity = new Vector2(MoveDirection() * speed, rb.velocity.y);
-        Flip();
-    }
-
-    private float MoveDirection()
-    {
-        horizontal = player.transform.position.x > this.transform.position.x ? 1 : -1;
-        return horizontal;
-    }
-
-    private bool ChangeDirection(int currentDirection)
-    {
-        float newDirection = MoveDirection();
-        if (currentDirection != newDirection) {
-            Debug.Log("Change");
-            return true;
-        }
-        Debug.Log("No change");
-        return false;
+        horizontalDirection = player.transform.position.x > transform.position.x ? 1 : -1;
     }
 
     private bool IsGrounded()
@@ -89,7 +82,7 @@ public class FelineAI : MonoBehaviour
 
     private void Flip()
     {
-        if (isFacingRight && horizontal < 0 || !isFacingRight && horizontal > 0f) {
+        if (isFacingRight && horizontalDirection < 0 || !isFacingRight && horizontalDirection > 0) {
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
             localScale.x *= -1;
