@@ -9,35 +9,43 @@ public class Movement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Animator anim;
     
-    private float speed = 5f;
+    private float speed;
     private float horizontal;
-    private float jumpingPower = 16f;
-    private bool isFacingRight = true;
+    private float jumpingPower;
+    private bool isFacingRight;
     private bool takingDamage;
 
-    private void Awake() {
+    private void Awake()
+    {
+        speed = 5f;
+        jumpingPower = 16f;
+        isFacingRight = true;
         takingDamage = false;
     }
 
-    private void Update() {
+    private void Update()
+    {
         Animate();
         ManageInputs();
         Jump();
         Flip();
     }
 
-    private void FixedUpdate() {
+    private void FixedUpdate()
+    {
         Move();
     }
 
-    private void Animate() {
+    private void Animate()
+    {
         anim.SetBool("TakingDamage", takingDamage);
         anim.SetBool("GroundCheck", isGrounded());
         anim.SetFloat("HorizontalSpeed", Mathf.Abs(horizontal));
         anim.SetFloat("VerticalSpeed", rb.velocity.y);
     }
 
-    private void Jump() {
+    private void Jump()
+    {
         if (Input.GetButtonDown("Jump") && isGrounded()) {
             anim.SetBool("IsJumping", true);
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
@@ -53,19 +61,23 @@ public class Movement : MonoBehaviour
         }
     }  
 
-    private void Move() {
+    private void Move()
+    {
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
     }
 
-    private void ManageInputs() {
+    private void ManageInputs()
+    {
         horizontal = Input.GetAxis("Horizontal");
     }
 
-    private bool isGrounded() {
+    private bool isGrounded()
+    {
         return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
-    private void Flip() {
+    private void Flip()
+    {
         if (isFacingRight && horizontal < 0 || !isFacingRight && horizontal > 0f) {
             isFacingRight = !isFacingRight;
             Vector3 localScale = transform.localScale;
