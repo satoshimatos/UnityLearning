@@ -42,6 +42,26 @@ public abstract class Enemy : MonoBehaviour
         rb.velocity = new Vector2(horizontal, rb.velocity.y);
     }
 
+    // Constantly moves the game object following a path, sticking to the floor, walls and the ceiling
+    protected void WalkOnWallsAndCeiling(float speed)
+    {
+        int upAngle = 90;
+        int downAngle = 45;
+
+        if (transform.localScale.x == -1) {
+            upAngle = 270;
+        }
+
+        if (IsGrounded() && HitWall()) {
+            transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z + upAngle);
+        }
+
+        if (!IsGrounded() && !HitWall()) {
+            transform.rotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z - downAngle * transform.localScale.x);
+        }
+        transform.Translate(speed/50 * transform.localScale.x, -0.001f, 0);
+    }
+
     // Flips the game object according to an x vector
     protected void Flip(int vectorX)
     {
