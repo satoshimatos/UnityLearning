@@ -44,6 +44,7 @@
      <Compile Include="Assets\Scripts\Enemies\Feline\FelineAI.cs" />
      <Compile Include="Assets\Prototype Hero Demo - Pixel Art\Demo\PrototypeHeroDemo.cs" />
      <Compile Include="Assets\Prototype Hero Demo - Pixel Art\Demo\Dust_DestroyEvent.cs" />
+     <Compile Include="Assets\Scripts\Effects\Explosion.cs" />
      <Compile Include="Assets\Scripts\Enemies\Quadropod\QuadropodAI.cs" />
      <Compile Include="Assets\Prototype Hero Demo - Pixel Art\Demo\AudioManager_PrototypeHero.cs" />
     <Reference Include="UnityEngine">
