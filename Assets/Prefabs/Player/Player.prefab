@@ -55,6 +55,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   anim: {fileID: 4747113046913295947}
+  explosion: {fileID: 1713728311148679345, guid: 187ec4ed0fa557f49b25f1ec9b0f7acf, type: 3}
 --- !u!212 &4747113046913295944
 SpriteRenderer:
   m_ObjectHideFlags: 0
